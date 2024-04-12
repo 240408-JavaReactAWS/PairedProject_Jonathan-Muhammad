@@ -1,9 +1,7 @@
 package com.example.revature.PairedProject_JonathanMuhammad.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Objects;
 
@@ -12,10 +10,16 @@ import java.util.Objects;
 public class Customer {
 
     @Id
-    @Column(name = "customerId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerID;
+
+    @Column(unique = true, nullable = false)
     private  String username;
+
+    @Column(nullable = false)
     private  String password;
+
+    @Column(nullable = false, columnDefinition = "CUSTOMER")
     private  String role;
 
 
