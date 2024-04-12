@@ -21,7 +21,7 @@ public class CustomerController {
     }
 
     // Get
-    @GetMapping("/customer")
+    @GetMapping
     public ResponseEntity<?> loginCustomer(@RequestBody Customer customer) {
         Customer loginCustomer = customerService.loginCustomer(customer);
         if (loginCustomer != null) {
@@ -33,13 +33,13 @@ public class CustomerController {
 
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getAllOrdersFromUser(@RequestBody Customer customer ) {
-        List<Order> orders = orderService.getAllOrdersFromCustomer(customer);
+        List<Order> orders = orderService.getAllOrders(customer);
         return ResponseEntity.ok(orders);
     }
     // Input Username Password to get other details
 
     // Post
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
         // Input validation
         if (customer.getUsername().isBlank() || customer.getPassword().isBlank()) {

@@ -21,10 +21,9 @@ public class Customer {
     private  String password;
 
     @Column(nullable = false)
-    @ColumnDefault("CUSTOMER")
-    private  String role;
+    private  String role = "CUSTOMER";
 
-    @OneToMany(mappedBy = "Customers")
+    @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
 
     public List<Order> getOrders() {
@@ -41,12 +40,14 @@ public class Customer {
     public Customer(String username, String password) {
         this.username = username;
         this.password = password;
+
     }
 
     public Customer(int customerID, String username, String password) {
         this.customerID = customerID;
         this.username = username;
         this.password = password;
+
     }
 
     public Customer(int customerID, String username, String password, String role) {

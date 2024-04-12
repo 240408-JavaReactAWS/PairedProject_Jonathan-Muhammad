@@ -12,29 +12,18 @@ import java.util.List;
 @Service
 public class OrderService {
     private OrderDAO od;
-    private CustomerDAO cd;
+
 
     @Autowired
-    public  OrderService(OrderDAO od, CustomerDAO cd){
+    public  OrderService(OrderDAO od){
         this.od = od;
-        this.cd = cd;
+
     }
 
     public List<Order> getAllOrders(Customer customer) {
-        Customer Customer = cd.findByUsername(customer.getUsername());
-        if (Customer != null && Customer.getPassword().equals(customer.getPassword()) && Customer.getRole().equals("ADMIN")) {
-            return  od.findAll();
-        }
-        return  null;
+        return  od.findAll();
     }
 
-    public List<Order> getAllOrdersFromCustomer(Customer customer) {
-        Customer Customer = cd.findByUsername(customer.getUsername());
-        if (Customer != null && Customer.getPassword().equals(customer.getPassword()) ) {
-            return  od.findByCustomerId(customer.getCustomerID());
-        }
-        return  null;
-    }
 
     public Order makeOrder (Order order){
         return od.save(order);
