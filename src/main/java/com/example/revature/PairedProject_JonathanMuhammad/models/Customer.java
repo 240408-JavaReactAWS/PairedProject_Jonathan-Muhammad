@@ -1,9 +1,10 @@
 package com.example.revature.PairedProject_JonathanMuhammad.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "Customers")
@@ -19,9 +20,19 @@ public class Customer {
     @Column(nullable = false)
     private  String password;
 
-    @Column(nullable = false, columnDefinition = "CUSTOMER")
-    private  String role;
+    @Column(nullable = false)
+    private  String role = "CUSTOMER";
 
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 
     public Customer() {
     }
@@ -29,12 +40,14 @@ public class Customer {
     public Customer(String username, String password) {
         this.username = username;
         this.password = password;
+
     }
 
     public Customer(int customerID, String username, String password) {
         this.customerID = customerID;
         this.username = username;
         this.password = password;
+
     }
 
     public Customer(int customerID, String username, String password, String role) {
@@ -42,6 +55,12 @@ public class Customer {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public Customer(String role, String password, String username) {
+        this.role = role;
+        this.password = password;
+        this.username = username;
     }
 
     public int getCustomerID() {
