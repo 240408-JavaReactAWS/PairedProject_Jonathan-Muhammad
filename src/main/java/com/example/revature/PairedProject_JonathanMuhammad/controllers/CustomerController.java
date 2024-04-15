@@ -14,31 +14,24 @@ import java.util.List;
 @RequestMapping("/customer")
 public class CustomerController {
     CustomerService customerService;
-    OrderService orderService;
+
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    // Get
+    // Endpoint to retrieve a customer by username and password
     @GetMapping
-    public ResponseEntity<?> loginCustomer(@RequestBody Customer customer) {
-        Customer loginCustomer = customerService.loginCustomer(customer);
-        if (loginCustomer != null) {
-            return ResponseEntity.ok(loginCustomer);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
+    public ResponseEntity<String> getCustomer(@RequestBody Customer customer) {
+        Customer retrievedCustomer = customerService.findCustomerByUsername(customer.getUsername());
+        // Check if the customer exists and the password matches
+        if (retrievedCustomer != null && retrievedCustomer.getPassword().equals(customer.getPassword())) {
+            return ResponseEntity.ok("OK"); // Return OK if authentication succeeds
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized"); // Return Unauthorized otherwise
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<List<Order>> getAllOrdersFromUser(@RequestBody Customer customer ) {
-        List<Order> orders = orderService.getAllOrders(customer);
-        return ResponseEntity.ok(orders);
-    }
-    // Input Username Password to get other details
-
-    // Post
+    // Endpoint to create a customer
     @PostMapping
     public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
         // Input validation
@@ -46,14 +39,41 @@ public class CustomerController {
             return ResponseEntity.badRequest().body("");
         }
 
-        // Check if customer already exists
-        Customer existingCustomer = customerService.findCustomerByUsername(customer.getUsername());
-        if (existingCustomer != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("");
+        Customer createdCustomer = customerService.registerCustomer(customer);
+        // Check if the customer was successfully created
+        if (createdCustomer != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomer); // Return created customer if successful
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).build(); // Return Conflict if customer already exists
+
+    }
+
+    // Endpoint to update a customer
+    @PutMapping
+    public ResponseEntity<String> updateCustomer(@RequestBody Customer customer) {
+        // Input validation
+        if (customer.getUsername().isBlank() || customer.getPassword().isBlank()) {
+            return ResponseEntity.badRequest().body("");
         }
 
-        Customer registeredCustomer = customerService.registerCustomer(customer);
-        return ResponseEntity.ok(registeredCustomer);
+        Customer updatedCustomer = customerService.updateCustomer(customer);
+        // Check if the customer exists and was successfully updated
+        if (updatedCustomer != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer.toString()); // Return updated customer if update succeeds
+        }
+        return ResponseEntity.notFound().build(); // Return Not Found otherwise
+    }
+
+    // Endpoint to delete a customer
+    @DeleteMapping
+    public ResponseEntity<String> deleteCustomer(@RequestBody Customer customer) {
+        Customer retrievedCustomer = customerService.findCustomerByUsername(customer.getUsername());
+        // Check if the customer exists and the password matches
+        if (retrievedCustomer != null && retrievedCustomer.getPassword().equals(customer.getPassword())) {
+            customerService.deleteCustomer(retrievedCustomer.getCustomerID());
+            return ResponseEntity.ok(retrievedCustomer.toString()); // Return OK if deletion succeeds
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized"); // Return Unauthorized otherwise
 
     }
 
