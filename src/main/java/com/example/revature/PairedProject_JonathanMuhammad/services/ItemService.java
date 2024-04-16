@@ -21,30 +21,37 @@ public class ItemService {
         this.itemDAO = itemDAO;
     }
 
+    // Get item by ID
     public Optional<Item> getItemById(int id){
         return itemDAO.findById(id);
     }
 
+    // Get all items
     public List<Item> getAllItems(){
         return itemDAO.findAll();
     }
 
+    // Add a new item
     public Item addItem(Item item){
         return (Item)itemDAO.save(item);
     }
 
+    // Update an existing item
     public Item updateItem(Item item){
+        // Check if the item exists by ID
         if(itemDAO.findById(item.getItemId())!=null){
             return (Item)itemDAO.save(item);
         }
-        return null;
+        return null; // Item does not exist
     }
 
+    // Delete an item by ID
     public int deleteItemById(int id){
+        // Check if the item exists by ID
         if(itemDAO.findById(id)!=null){
             itemDAO.deleteById(id);
-            return -1;
+            return -1; // Item deleted successfully
         }
-        return 0;
+        return 0; // Item does not exist
     }
 }

@@ -26,6 +26,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    // Add Item endpoint
     @PostMapping
     public ResponseEntity<Item> addItem(@RequestBody Item item){
         Item savedItem = itemService.addItem(item);
@@ -35,11 +36,13 @@ public class ItemController {
         return new ResponseEntity<>(NOT_ACCEPTABLE);
     }
 
+    // Get All Items endpoint
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems(){
         return new ResponseEntity<>(itemService.getAllItems(),OK);
     }
 
+    // Get Item by ID endpoint
     @GetMapping("{id}")
     public ResponseEntity<Item> getItemById(@PathVariable("id") int id) {
         Optional foundItem = itemService.getItemById(id);
@@ -49,6 +52,7 @@ public class ItemController {
         return new ResponseEntity<>(NOT_FOUND);
     }
 
+    // Update Item endpoint
     @PutMapping
     public ResponseEntity<Item> updateItem(@RequestBody Item item) {
         Optional foundItem = itemService.getItemById(item.getItemId());
@@ -59,6 +63,7 @@ public class ItemController {
         return new ResponseEntity<>(NOT_FOUND);
     }
 
+    // Delete Item by ID endpoint
     @DeleteMapping("{id}")
     public ResponseEntity<Integer> deleteItemById(@PathVariable("id") int id) {
         Optional foundItem = itemService.getItemById(id);

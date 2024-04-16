@@ -1,13 +1,12 @@
 package com.example.revature.PairedProject_JonathanMuhammad.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="items")
 public class Item {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int itemId;
     String itemName;
     double itemPrice;
@@ -15,6 +14,13 @@ public class Item {
     int itemStock;
 
     public Item() {
+    }
+
+    public Item(String itemName, double itemPrice, String itemDescription, int itemStock) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemDescription = itemDescription;
+        this.itemStock = itemStock;
     }
 
     public Item(int itemId, String itemName, double itemPrice, String itemDescription, int itemStock) {

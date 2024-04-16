@@ -21,18 +21,7 @@ public class Customer {
     private  String password;
 
     @Column(nullable = false)
-    private  String role = "CUSTOMER";
-
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orders = new ArrayList<>();
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
+    private  String role = "USER";
 
     public Customer() {
     }
@@ -100,7 +89,6 @@ public class Customer {
         return "Customer{" +
                 "customerID=" + customerID +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
