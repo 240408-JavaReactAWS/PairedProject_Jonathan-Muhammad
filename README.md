@@ -1,5 +1,3 @@
-# Project Name
-
 ## Description
 
 This project is a simple API built with Spring Boot for creating and managing items. It allows users to store items and track them as needed. The API supports various user functionalities such as creating, viewing, updating, and deleting items, as well as managing customer accounts with different roles (USER and ADMIN).
