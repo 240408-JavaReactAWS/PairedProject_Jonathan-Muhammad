@@ -8,37 +8,67 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderID;
+    private int orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "customerID")
-    private Customer customer;
+    @Column(name = "customerId")
+    private int customerId;
+
+    @Column(name = "itemId")
+    private int itemId;
+
+    @Column(name = "itemQuantity", nullable = false)
+    private int itemQuantity = 0;
+
+    @Column(name = "totalPrice", nullable = false)
+    private double totalPrice;
 
     public Order() {
     }
 
-    public Order(int orderID, Customer customer) {
-        this.orderID = orderID;
-        this.customer = customer;
+    public Order(int customerId, int itemId, int itemQuantity) {
+        this.customerId = customerId;
+        this.itemId = itemId;
+        this.itemQuantity = itemQuantity;
     }
 
-    public Order(Customer customer) {
-        this.customer = customer;
+
+    public int getOrderId() {
+        return orderId;
     }
 
-    public int getOrderID() {
-        return orderID;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public int getItemQuantity() {
+        return itemQuantity;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
+    public double getTotal() {
+        return totalPrice;
+    }
+
+    public void setTotal(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

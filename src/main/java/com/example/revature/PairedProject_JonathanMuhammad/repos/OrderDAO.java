@@ -11,8 +11,5 @@ import java.util.List;
 
 @Repository
 public interface  OrderDAO extends JpaRepository<Order, Integer> {
-//    List<Order> getAllOrders ();
-//    List<Order> getAllOrdersFromCustomer (Customer customer);
-//    @Query("SELECT o FROM orders o WHERE o.customerID = :customerId")
-//    List<Order> findByCustomerId(Integer customerId);
+    List<Order> findByCustomerId(int customerId);
 }
